@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 // 1. Клас для даних товарів
 namespace MarketPlaceProject
 {
-    /// <summary>
-    /// Клас для зберігання початкових даних про товари
-    /// </summary>
-    public static class GoodsData
+    //---------------------------------------------------------------
+    /*public static class GoodsData
     {
         private static int _nextId = 1;
 
@@ -39,11 +38,63 @@ namespace MarketPlaceProject
                 ["Побутова техніка"] = new List<string> { "Холодильники", "Пилососи", "Пральні машини" }
             };
         }
+    }*/
+
+    public static class GoodsData
+    {
+        private static int _nextId = 1;
+
+        public static List<Goods> GetAllGoods()
+        {
+            return new List<Goods>
+            {
+                // Смартфони, ТВ та електроніка
+                new Goods(_nextId++, "iPhone 15 Pro", 45999, 10, "Смартфони, ТВ та електроніка"),
+                new Goods(_nextId++, "Samsung Galaxy S23", 34999, 15, "Смартфони, ТВ та електроніка"),
+                new Goods(_nextId++, "Xiaomi 13 Pro", 28999, 8, "Смартфони, ТВ та електроніка"),
+                new Goods(_nextId++, "Sony Bravia 55\"", 25999, 5, "Смартфони, ТВ та електроніка"),
+                new Goods(_nextId++, "LG OLED 65\"", 59999, 3, "Смартфони, ТВ та електроніка"),
+
+                // Ноутбуки та комп'ютери
+                new Goods(_nextId++, "MacBook Pro M3", 74999, 4, "Ноутбуки та комп'ютери"),
+                new Goods(_nextId++, "Dell XPS 15", 69999, 6, "Ноутбуки та комп'ютери"),
+                new Goods(_nextId++, "Lenovo ThinkPad", 45999, 8, "Ноутбуки та комп'ютери"),
+                new Goods(_nextId++, "HP Spectre x360", 52999, 5, "Ноутбуки та комп'ютери"),
+                new Goods(_nextId++, "Asus ROG Strix", 64999, 3, "Ноутбуки та комп'ютери"),
+
+                // Товари для геймерів
+                new Goods(_nextId++, "PlayStation 5", 20999, 3, "Товари для геймерів"),
+                new Goods(_nextId++, "Xbox Series X", 19999, 4, "Товари для геймерів"),
+                new Goods(_nextId++, "Nintendo Switch", 13999, 6, "Товари для геймерів"),
+                new Goods(_nextId++, "Razer Gaming Mouse", 2999, 10, "Товари для геймерів"),
+                new Goods(_nextId++, "Logitech Gaming Keyboard", 3999, 8, "Товари для геймерів"),
+
+                // Побутова техніка
+                new Goods(_nextId++, "LG Холодильник", 48999, 7, "Побутова техніка"),
+                new Goods(_nextId++, "Dyson Пилосос", 25999, 9, "Побутова техніка"),
+                new Goods(_nextId++, "Bosch Пральна машина", 32999, 6, "Побутова техніка"),
+                new Goods(_nextId++, "Philips Мікрохвильова", 6999, 12, "Побутова техніка"),
+                new Goods(_nextId++, "Redmond Кавоварка", 4999, 15, "Побутова техніка")
+            };
+        }
+
+        public static List<string> GetCategories()
+        {
+            return new List<string>
+            {
+                "Смартфони, ТВ та електроніка",
+                "Ноутбуки та комп'ютери",
+                "Товари для геймерів",
+                "Побутова техніка"
+            };
+        }
     }
 
+    //-------------------------------------------------------------------
     // 2. ІНТЕРФЕЙСИ та ООП
     public interface ISerializableEntity { string Serialize(); }
 
+    //-------------------------------------------------------------------
     // 3. ДЕЛЕГАТИ та ПОДІЇ
     public delegate void StockEventHandler(object sender, string message);
     public delegate void CartEventHandler(object sender, CartEventArgs e);
@@ -54,6 +105,7 @@ namespace MarketPlaceProject
         public CartEventArgs(string message) => Message = message;
     }
 
+    //-------------------------------------------------------------------
     // 4. АБСТРАКТНИЙ КЛАС
     [Serializable]
     public abstract class ProductBase
@@ -71,6 +123,7 @@ namespace MarketPlaceProject
         public abstract string GetDescription();
     }
 
+    //-------------------------------------------------------------------
     // 5. КЛАС ТОВАРУ
     [Serializable]
     public class Goods : ProductBase, ICloneable, ISerializableEntity
@@ -109,6 +162,7 @@ namespace MarketPlaceProject
         public override int GetHashCode() => Id.GetHashCode();
     }
 
+    //-------------------------------------------------------------------
     // 6. GENERICS КОЛЕКЦІЯ
     public class GoodsCollection<T> : IEnumerable<T> where T : Goods
     {
@@ -126,6 +180,7 @@ namespace MarketPlaceProject
         public IEnumerable<T> OrderBy<TKey>(Func<T, TKey> keySelector) => _items.OrderBy(keySelector);
     }
 
+    //-------------------------------------------------------------------
     // 7. КОРЗИНА
     public class ShoppingCart
     {
@@ -157,6 +212,7 @@ namespace MarketPlaceProject
             CartChanged?.Invoke(this, new CartEventArgs(message));
     }
 
+    //-------------------------------------------------------------------
     // 8. SINGLETON покупець
     public sealed class Customer
     {
@@ -169,6 +225,7 @@ namespace MarketPlaceProject
         private Customer() => Name = "Гість";
     }
 
+    //-------------------------------------------------------------------
     // 9. ЗАМОВЛЕННЯ
     [Serializable]
     public class Order
@@ -190,6 +247,7 @@ namespace MarketPlaceProject
             $"Замовлення #{Id} від {Date:dd.MM.yyyy} - {Total} грн";
     }
 
+    //-------------------------------------------------------------------
     // 10. SHOP MANAGER
     public sealed class ShopManager
     {
@@ -215,90 +273,8 @@ namespace MarketPlaceProject
             Goods.Where(g => g.Price >= min && g.Price <= max).OrderBy(g => g.Price);
     }
 
+    //-------------------------------------------------------------------
     // 11. FILE MANAGER
-    /*public static class FileManager
-    {
-        private const string FilePath = "marketplace_data.txt";
-        private static bool _isFirstRun = true;
-
-        public static void SaveData(Customer customer)
-        {
-            var sb = new StringBuilder();
-
-            // Якщо перший запуск після старту програми, очищаємо файл
-            if (_isFirstRun)
-            {
-                File.WriteAllText(FilePath, string.Empty, Encoding.UTF8);
-                _isFirstRun = false;
-            }
-
-            // --- Товари (ті, що були замовлені) ---
-            sb.AppendLine("#OrderedGoods");
-            var orderedGoods = customer.Orders
-                .SelectMany(o => o.Items)
-                .GroupBy(g => g.Name)
-                .Select(g => new { Name = g.Key, Quantity = g.Sum(x => x.Quantity) });
-
-            foreach (var g in orderedGoods)
-            {
-                sb.AppendLine($"{g.Name}|{g.Quantity}");
-            }
-
-            // --- Замовлення ---
-            sb.AppendLine("#Orders");
-            foreach (var o in customer.Orders)
-            {
-                foreach (var item in o.Items)
-                {
-                    sb.AppendLine($"{o.Id}|{o.Date:yyyy-MM-dd HH:mm}|{customer.Name}|{item.Name}|{item.Quantity}|{item.Price * item.Quantity}");
-                }
-            }
-
-            // --- Роздільник ---
-            sb.AppendLine("------------------------------------------------------");
-
-            // Додаємо блок у файл, не перезаписуючи попередні
-            File.AppendAllText(FilePath, sb.ToString(), Encoding.UTF8);
-        }
-
-        public static void LoadData(Customer customer)
-        {
-            if (!File.Exists(FilePath)) return;
-
-            var lines = File.ReadAllLines(FilePath, Encoding.UTF8);
-
-            bool readingOrders = false;
-
-            foreach (var line in lines)
-            {
-                if (line.StartsWith("#Orders")) { readingOrders = true; continue; }
-                if (line.StartsWith("#OrderedGoods") || line.StartsWith("------------------------------------------------------"))
-                {
-                    readingOrders = false;
-                    continue;
-                }
-
-                if (readingOrders)
-                {
-                    var parts = line.Split('|');
-                    if (parts.Length == 6 &&
-                        int.TryParse(parts[0], out int orderId) &&
-                        DateTime.TryParse(parts[1], out DateTime date) &&
-                        int.TryParse(parts[4], out int qty) &&
-                        decimal.TryParse(parts[5], out decimal total))
-                    {
-                        var item = new Goods(0, parts[3], total / qty, qty, "");
-                        var order = customer.Orders.FirstOrDefault(o => o.Id == orderId);
-                        if (order == null)
-                            customer.Orders.Add(new Order(orderId, new List<Goods> { item }));
-                        else
-                            order.Items.Add(item);
-                    }
-                }
-            }
-        }
-    }*/
-
     public static class FileManager
     {
         private const string FilePath = "marketplace_data.txt";
@@ -342,7 +318,7 @@ namespace MarketPlaceProject
         }
     }
 
-
+    //-------------------------------------------------------------------
     // 12. UI УТИЛІТИ
     public static class UI
     {
@@ -378,7 +354,7 @@ namespace MarketPlaceProject
     {
         static void Main()
         {
-            Console.Title = "🏪 MarketPlace";
+            Console.Title = "🏪🛒 MarketPlace";
             Console.OutputEncoding = Encoding.UTF8;
 
             var shop = ShopManager.Instance;
@@ -410,27 +386,25 @@ namespace MarketPlaceProject
                 Console.WriteLine($"Корзина: {customer.Cart.Items.Count} товарів на {customer.Cart.TotalPrice} грн\n");
 
                 Console.WriteLine("1. 🛍️  Каталог товарів");
-                Console.WriteLine("2. 🔍  Пошук");
-                Console.WriteLine("3. 🛒  Корзина");
-                Console.WriteLine("4. 📦  Замовлення");
-                Console.WriteLine("5. ⚙️  Налаштування");
-                Console.WriteLine("6. 💾  Файли");
-                Console.WriteLine("7. 🚪  Вийти");
+                Console.WriteLine("2. 🛒  Корзина");
+                Console.WriteLine("3. 📦  Замовлення");
+                Console.WriteLine("4. ⚙️  Налаштування");
+                Console.WriteLine("5. 💾  Файли");
+                Console.WriteLine("6. 🚪  Вийти");
 
-                switch (UI.GetChoice(1, 7))
+                switch (UI.GetChoice(1, 6))
                 {
                     case 1: ShowCatalog(shop, customer); break;
-                    case 2: SearchProducts(shop, customer); break;
-                    case 3: ShowCart(customer); break;
-                    case 4: ShowOrders(customer); break;
-                    case 5: Settings(customer); break;
-                    case 6: FileOperations(customer); break;
-                    case 7: return;
+                    case 2: ShowCart(customer); break;
+                    case 3: ShowOrders(customer); break;
+                    case 4: Settings(customer); break;
+                    case 5: FileOperations(customer); break;
+                    case 6: return;
                 }
             }
         }
         //---------------------------------------
-        static void ShowCatalog(ShopManager shop, Customer customer)
+        /*static void ShowCatalog(ShopManager shop, Customer customer)
         {
             while (true)
             {
@@ -452,7 +426,53 @@ namespace MarketPlaceProject
                 var product = shop.Goods[id];
                 if (product != null) AddToCart(product, customer);
             }
+        }*/
+
+        static void ShowCatalog(ShopManager shop, Customer customer)
+        {
+            while (true)
+            {
+                UI.ShowHeader("Каталог товарів");
+
+                var categories = GoodsData.GetCategories();
+
+                for (int i = 0; i < categories.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {categories[i]}");
+                }
+                Console.WriteLine("0. Назад");
+
+                int choice = UI.GetChoice(0, categories.Count);
+                if (choice == 0) break;
+
+                string selectedCategory = categories[choice - 1];
+                var productsInCategory = shop.Goods.Where(g => g.Category == selectedCategory).ToList();
+
+                while (true)
+                {
+                    UI.ShowHeader($"Категорія: {selectedCategory}");
+                    foreach (var g in productsInCategory)
+                        UI.ShowProduct(g);
+
+                    Console.WriteLine("\n0. Назад");
+                    Console.WriteLine("Введіть ID товару, щоб додати у корзину");
+
+                    int id = UI.GetChoice(0, shop.Goods.Max(g => g.Id));
+                    if (id == 0) break;
+
+                    var product = shop.Goods[id];
+                    if (product != null && product.Category == selectedCategory)
+                        AddToCart(product, customer);
+                    else
+                    {
+                        Console.WriteLine("Товар не знайдено у цій категорії");
+                        Console.ReadKey();
+                    }
+                }
+            }
         }
+
+
         //---------------------------------------
         static void AddToCart(Goods product, Customer customer)
         {
@@ -466,26 +486,6 @@ namespace MarketPlaceProject
                 }
                 catch (Exception ex) { Console.WriteLine($"❌ {ex.Message}"); }
             }
-        }
-        //---------------------------------------
-        static void SearchProducts(ShopManager shop, Customer customer)
-        {
-            UI.ShowHeader("Пошук товарів");
-            Console.Write("Пошук: ");
-            string query = Console.ReadLine();
-
-            var results = shop.Search(query).ToList();
-            if (results.Any())
-            {
-                foreach (var g in results) UI.ShowProduct(g);
-                Console.Write("\nДодати товар до корзини (ID або 0 для виходу): ");
-                if (int.TryParse(Console.ReadLine(), out int id) && id > 0)
-                {
-                    var product = results.FirstOrDefault(g => g.Id == id);
-                    if (product != null) AddToCart(product, customer);
-                }
-            }
-            else Console.WriteLine("Нічого не знайдено");
         }
         //---------------------------------------
         static void ShowCart(Customer customer)
@@ -596,20 +596,6 @@ namespace MarketPlaceProject
             Console.ReadKey();
         }
         //---------------------------------------
-        /*static void FileOperations(Customer customer)
-        {
-            UI.ShowHeader("Робота з файлами");
-
-            // Зберігаємо замовлені товари та замовлення
-            FileManager.SaveData(customer);
-            Console.WriteLine("✅ Дані збережено у файл marketplace_data.txt");
-
-            // Завантаження даних з файлу
-            FileManager.LoadData(customer);
-            Console.WriteLine($"📂 Завантажено {customer.Orders.Count} збережених замовлень");
-
-            Console.ReadKey();
-        }*/
 
         static void FileOperations(Customer customer)
         {
