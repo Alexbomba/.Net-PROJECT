@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+using System; 
+using System.Collections.Generic; 
+using System.IO; 
 using System.Linq; 
-using System.Runtime.InteropServices; 
-using System.Text; 
+using System.Runtime.InteropServices;
+using System.Text;
 
 // 1. Клас для даних товарів
 namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
@@ -78,7 +78,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
     // 4. АБСТРАКТНИЙ КЛАС
     [Serializable] // Позначає клас як серіалізований
     public abstract class ProductBase // АБСТРАКТНИЙ КЛАС ДЛЯ ПРОДУКТІВ
-    { 
+    {
         public int Id { get; protected set; } // Унікальний ідентифікатор продукту
         public string Name { get; protected set; } // Назва продукту
         public decimal Price { get; protected set; } // Ціна продукту
@@ -243,7 +243,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
         }
 
         public void CheckStock() // Метод для перевірки запасів
-        { 
+        {
             foreach (var g in Goods.Where(g => g.Quantity <= 3)) // Перевіряємо товари з кількістю менше або рівною 3
                 LowStockAlert?.Invoke(this, $"Увага! Закінчується: {g.Name} (залишилось: {g.Quantity})"); // Викликаємо подію для кожного товару з низьким запасом
         }
