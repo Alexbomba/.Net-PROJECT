@@ -1,9 +1,9 @@
-using System; 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices; 
-using System.Text;
+using System; // For basic system functions
+using System.Collections.Generic; // For collections
+using System.IO; // For file operations
+using System.Linq; // For LINQ operations
+using System.Runtime.InteropServices; // For COM visibility
+using System.Text; // For StringBuilder
 
 // 1. Клас для даних товарів
 namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
