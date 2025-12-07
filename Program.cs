@@ -395,31 +395,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                 }
             }
         }
-        //---------------------------------------
-        /*static void ShowCatalog(ShopManager shop, Customer customer)
-        {
-            while (true)
-            {
-                UI.ShowHeader("Каталог товарів");
-
-                var groups = shop.Goods.GroupBy(g => g.Category);
-                foreach (var group in groups)
-                {
-                    Console.WriteLine($"\n📁 {group.Key}:");
-                    foreach (var g in group) UI.ShowProduct(g);
-                }
-
-                Console.WriteLine("\n0. Назад");
-                Console.WriteLine("ID товару - додати в корзину");
-
-                int id = UI.GetChoice(0, shop.Goods.Max(g => g.Id));
-                if (id == 0) break;
-
-                var product = shop.Goods[id];
-                if (product != null) AddToCart(product, customer);
-            }
-        }*/
-
+       
         static void ShowCatalog(ShopManager shop, Customer customer) // МЕНЮ КАТАЛОГУ
         {
             while (true)
@@ -508,43 +484,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                 }
             }
         }
-        //---------------------------------------
-        /*static void Checkout(Customer customer)
-        {
-            if (!customer.Cart.Items.Any())
-            {
-                Console.WriteLine("Корзина порожня!");
-                return;
-            }
-
-            Console.Write("Ваше ім'я: ");
-            customer.Name = Console.ReadLine();
-
-            // Створюємо нове замовлення
-            var order = new Order(customer.Orders.Count + 1, customer.Cart.Items.ToList());
-            customer.Orders.Add(order);
-            customer.Cart.Clear();
-
-            Console.WriteLine($"\n✅ Замовлення #{order.Id} оформлено!");
-            Console.WriteLine($"💰 Сума: {order.Total} грн");
-
-            // --- Пропозиція зберегти замовлення у файл ---
-            Console.Write("Бажаєте зберегти замовлення у файл? (T - так/F - ні): ");
-            var key = Console.ReadKey();
-            Console.WriteLine();
-            if (key.Key == ConsoleKey.T)
-            {
-                FileManager.SaveLastOrder(customer);
-                Console.WriteLine("✅ Замовлення збережене у файл marketplace_data.txt");
-            }
-            else
-            {
-                Console.WriteLine("⚠️ Замовлення не збережене у файл");
-            }
-
-            Console.ReadKey();
-        }*/
-
+        
         static void Checkout(Customer customer) // МЕТОД ОФОРМЛЕННЯ ЗАМОВЛЕННЯ
         {
             if (!customer.Cart.Items.Any())
