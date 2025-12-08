@@ -1,0 +1,16 @@
+1. GoodsData
+2. ISerializableEntity
+3. StockEventHandler
+4. CartEventHandler
+5. CartEventArgs
+6. ProductBase
+7. Goods
+8. GoodsCollection
+9. ShoppingCart
+10. Customer
+11. Order
+12. ShopManager
+13. FileManager
+14. Interface
+15. MenuManager
+16. Program
