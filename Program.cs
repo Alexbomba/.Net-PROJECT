@@ -1,9 +1,9 @@
-using System; // For basic system functions
-using System.Collections.Generic; // For collections
-using System.IO; // For file operations
-using System.Linq; // For LINQ operations
-using System.Runtime.InteropServices; // For COM visibility
-using System.Text; // For StringBuilder
+using System; 
+using System.Collections.Generic; 
+using System.IO;
+using System.Linq; 
+using System.Runtime.InteropServices;
+using System.Text; 
 
 // 1. Клас для даних товарів
 namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
@@ -18,7 +18,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
             return new List<Goods> // Повертаємо новий список товарів
             {
                 // Смартфони, ТВ та електроніка
-                new Goods(_nextId++, "iPhone 15 Pro", 45999, 10, "Смартфони, ТВ та електроніка"), // ID автоматично інкрементується
+                new Goods(_nextId++, "iPhone 15 Pro", 45999, 10, "Смартфони, ТВ та електроніка"), 
                 new Goods(_nextId++, "Samsung Galaxy S23", 34999, 15, "Смартфони, ТВ та електроніка"),
                 new Goods(_nextId++, "Xiaomi 13 Pro", 28999, 8, "Смартфони, ТВ та електроніка"),
                 new Goods(_nextId++, "Sony Bravia 55\"", 25999, 5, "Смартфони, ТВ та електроніка"),
@@ -39,7 +39,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                 new Goods(_nextId++, "Logitech Gaming Keyboard", 3999, 8, "Товари для геймерів"),
 
                 // Побутова техніка
-                new Goods(_nextId++, "LG Холодильник", 48999, 7, "Побутова техніка"), //    
+                new Goods(_nextId++, "LG Холодильник", 48999, 7, "Побутова техніка"),     
                 new Goods(_nextId++, "Dyson Пилосос", 25999, 9, "Побутова техніка"),
                 new Goods(_nextId++, "Bosch Пральна машина", 32999, 6, "Побутова техніка"),
                 new Goods(_nextId++, "Philips Мікрохвильова", 6999, 12, "Побутова техніка"),
@@ -65,8 +65,8 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
 
     //-------------------------------------------------------------------
     // 3. ДЕЛЕГАТИ та ПОДІЇ
-    public delegate void StockEventHandler(object sender, string message); // Делегат для подій запасів
-    public delegate void CartEventHandler(object sender, CartEventArgs e); // Делегат для подій корзини
+    public delegate void StockEventHandler(object sender, string message); 
+    public delegate void CartEventHandler(object sender, CartEventArgs e); 
 
     public class CartEventArgs : EventArgs // Клас для аргументів подій корзини
     {
@@ -336,7 +336,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
     {
         static void Main() // ГОЛОВНИЙ МЕТОД ПРОГРАМИ
         {
-            Console.Title = "🏪🛒 MarketPlace";
+            Console.Title = "MarketPlace";
             Console.OutputEncoding = Encoding.UTF8; // Підтримка UTF-8 для емодзі
 
             var shop = ShopManager.Instance; // Отримуємо єдиний екземпляр ShopManager
@@ -367,12 +367,12 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                 Console.WriteLine($"Користувач: {customer.Name}");
                 Console.WriteLine($"Корзина: {customer.Cart.Items.Count} товарів на {customer.Cart.TotalPrice} грн\n");
 
-                Console.WriteLine("1. 🛍️  Каталог товарів");
-                Console.WriteLine("2. 🛒  Корзина");
-                Console.WriteLine("3. 🛍️  Замовлення");
-                Console.WriteLine("4. ⚙️  Налаштування");
-                Console.WriteLine("5. 💾  Файли");
-                Console.WriteLine("6. 🚪  Вийти");
+                Console.WriteLine("1.Каталог товарів");
+                Console.WriteLine("2.Корзина");
+                Console.WriteLine("3.Замовлення");
+                Console.WriteLine("4.Налаштування");
+                Console.WriteLine("5.Файли");
+                Console.WriteLine("6.Вийти");
 
                 switch (UI.GetChoice(1, 6))
                 {
@@ -385,7 +385,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Cyan; // Встановлюємо колір
                         Console.WriteLine("\n======================================");
-                        Console.WriteLine("🎉 Дякуємо за покупки, до зустрічі! 🎉");
+                        Console.WriteLine("Дякуємо за покупки, до зустрічі!");
                         Console.WriteLine("======================================\n");
                         Console.ResetColor(); // Скидаємо колір
                         Console.WriteLine("Натисніть будь-яку клавішу для завершення...");
@@ -450,9 +450,9 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                 try
                 {
                     customer.Cart.AddItem(product, qty);
-                    Console.WriteLine("✅ Додано до корзини");
+                    Console.WriteLine("Додано до корзини");
                 }
-                catch (Exception ex) { Console.WriteLine($"❌ {ex.Message}"); }
+                catch (Exception ex) { Console.WriteLine($"{ex.Message}"); }
             }
         }
         //---------------------------------------
@@ -469,7 +469,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                     foreach (var item in customer.Cart.Items)
                         Console.WriteLine($"{item.Name} x{item.Quantity} = {item.Price * item.Quantity} грн");
 
-                    Console.WriteLine($"\n💵 Загальна сума: {customer.Cart.TotalPrice} грн");
+                    Console.WriteLine($"\nЗагальна сума: {customer.Cart.TotalPrice} грн");
                 }
 
                 Console.WriteLine("\n1. Оформити замовлення");
@@ -517,8 +517,8 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
             customer.Orders.Add(order); // Додаємо замовлення до списку замовлень покупця
             customer.Cart.Clear(); // Очищаємо корзину
 
-            Console.WriteLine($"\n✅ Замовлення #{order.Id} оформлено для {customer.Name}!");
-            Console.WriteLine($"💰 Сума: {order.Total} грн");
+            Console.WriteLine($"\nЗамовлення #{order.Id} оформлено для {customer.Name}!");
+            Console.WriteLine($"Сума: {order.Total} грн");
 
             // Пропозиція зберегти замовлення у файл
             Console.Write("Бажаєте зберегти замовлення у файл? (T - так/F - ні): ");
@@ -527,11 +527,11 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
             if (key.Key == ConsoleKey.T)
             {
                 FileManager.SaveLastOrder(customer);
-                Console.WriteLine("✅ Замовлення збережене у файл marketplace_data.txt");
+                Console.WriteLine("Замовлення збережене у файл marketplace_data.txt");
             }
             else
             {
-                Console.WriteLine("⚠️ Замовлення не збережене у файл");
+                Console.WriteLine("Замовлення не збережене у файл");
             }
 
             Console.ReadKey();
@@ -576,7 +576,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
                     case 4: customer.Email = Console.ReadLine(); break;
                 }
 
-                Console.WriteLine("✔️ Значення оновлено");
+                Console.WriteLine("Значення оновлено");
                 Console.ReadKey();
             }
         }
@@ -591,7 +591,7 @@ namespace MarketPlaceProject // ІМ'Я ПРОСТОРУ ІМЕН
             FileManager.SaveLastOrder(customer); // Виклик методу для збереження останнього замовлення
 
             // Просте повідомлення користувачу
-            Console.WriteLine("✅ Замовлення збережене у файл marketplace_data.txt");
+            Console.WriteLine("Замовлення збережене у файл marketplace_data.txt");
 
             Console.ReadKey(); // Очікуємо натискання клавіші
         }
